@@ -1,0 +1,13 @@
+{
+  "name": "csd-projects",
+  "version": "1.0.0",
+  "description": "Curso Formación Certified Scrum Developer",
+  "scripts": {
+    "test": "node --test",
+    "test:fizzbuzz": "node --test fizzbuzz.test.js",
+    "serve": "npx http-server -p 8000 -o calculadora.html"
+  },
+  "keywords": ["fizzbuzz", "calculator", "csd"],
+  "author": "angel-gilabert",
+  "license": "MIT"
+}
