@@ -36,6 +36,7 @@
         background: #334155;
         color: #cbd5e1;
         font-weight: 600;
+        cursor: pointer;
       }
       .step.active {
         background: #38bdf8;
@@ -135,11 +136,11 @@
       <h1>Wizard de la Kata 002</h1>
       <p>Recorreremos la kata paso a paso: definir la regla, ejecutarla, ver resultados y generar el código de la calculadora.</p>
 
-      <div class="stepper">
-        <div class="step active">1. Definir la kata</div>
-        <div class="step">2. Ejecutar la kata</div>
-        <div class="step">3. Ver resultados</div>
-        <div class="step">4. Generar código</div>
+      <div class="stepper" aria-label="Pasos del wizard">
+        <div class="step active" data-step="1" role="button" tabindex="0">1. Definir la kata</div>
+        <div class="step" data-step="2" role="button" tabindex="0">2. Ejecutar la kata</div>
+        <div class="step" data-step="3" role="button" tabindex="0">3. Ver resultados</div>
+        <div class="step" data-step="4" role="button" tabindex="0">4. Generar código</div>
       </div>
 
       <section class="panel" id="step-1">
@@ -161,6 +162,7 @@
         <p>Haz clic para ejecutar la lógica de FizzBuzz y generar la secuencia.</p>
         <div class="actions">
           <button id="run-kata">Ejecutar kata</button>
+          <button class="secondary" id="prev-2">Paso anterior</button>
           <button class="secondary" id="next-2">Siguiente paso</button>
           <button class="back-home" id="back-home">Volver al paso principal</button>
         </div>
@@ -187,6 +189,7 @@
           </div>
         </div>
         <div class="actions">
+          <button class="secondary" id="prev-3">Paso anterior</button>
           <button class="secondary" id="next-3">Siguiente paso</button>
           <button class="back-home" id="back-home-3">Volver al paso principal</button>
         </div>
@@ -197,6 +200,7 @@
         <p>Este apartado lista las funciones generadas para la calculadora, con su bloque de código y una explicación breve.</p>
         <div id="generated-functions"></div>
         <div class="actions">
+          <button class="secondary" id="prev-4">Paso anterior</button>
           <button id="rerun-kata">Volver a ejecutar la kata</button>
           <a class="link-btn" href="./calculadora.html">Abrir calculadora</a>
           <a class="link-btn secondary" href="./fizzbuzz.test.js">Ver código fuente</a>
@@ -224,9 +228,31 @@
       document.getElementById('next-1').addEventListener('click', () => showStep(2));
       document.getElementById('next-2').addEventListener('click', () => showStep(3));
       document.getElementById('next-3').addEventListener('click', () => showStep(4));
+      document.getElementById('prev-2').addEventListener('click', () => showStep(1));
+      document.getElementById('prev-3').addEventListener('click', () => showStep(2));
+      document.getElementById('prev-4').addEventListener('click', () => showStep(3));
       document.getElementById('back-home').addEventListener('click', () => showStep(1));
       document.getElementById('back-home-3').addEventListener('click', () => showStep(1));
       document.getElementById('back-home-4').addEventListener('click', () => showStep(1));
+
+      stepperItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          const targetStep = Number(item.dataset.step);
+          if (targetStep) {
+            showStep(targetStep);
+          }
+        });
+
+        item.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            const targetStep = Number(item.dataset.step);
+            if (targetStep) {
+              showStep(targetStep);
+            }
+          }
+        });
+      });
 
       function renderResults() {
         const values = window.fizzBuzzZeroToHundred();
@@ -258,10 +284,6 @@
 
       document.getElementById('rerun-kata').addEventListener('click', () => {
         renderResults();
-        showStep(3);
-      });
-
-
         showStep(3);
       });
 
