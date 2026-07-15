@@ -113,6 +113,20 @@
       .function-card p {
         color: #cbd5e1;
       }
+      .tdd-steps {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .tdd-step {
+        background: #111827;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .tdd-step strong {
+        color: #38bdf8;
+      }
       .hidden { display: none; }
     </style>
   </head>
@@ -161,6 +175,17 @@
           </thead>
           <tbody></tbody>
         </table>
+        <div class="tdd-steps">
+          <div class="tdd-step">
+            <strong>Fase roja:</strong> se define una prueba nueva y se comprueba que falla, lo que confirma que la regla no está implementada todavía.
+          </div>
+          <div class="tdd-step">
+            <strong>Fase verde:</strong> se implementa la mínima lógica necesaria para que la prueba pase y la kata funcione.
+          </div>
+          <div class="tdd-step">
+            <strong>Fase de refactorización:</strong> se mejora el código manteniendo el mismo comportamiento y dejando la solución más limpia.
+          </div>
+        </div>
         <div class="actions">
           <button class="secondary" id="next-3">Siguiente paso</button>
           <button class="back-home" id="back-home-3">Volver al paso principal</button>
