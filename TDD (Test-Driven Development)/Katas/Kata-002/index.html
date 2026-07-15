@@ -3,40 +3,217 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kata 002 - FizzBuzz y Calculadora</title>
+    <title>Kata 002 Wizard</title>
     <style>
+      :root {
+        color-scheme: dark;
+      }
       body {
         margin: 0;
         font-family: Arial, sans-serif;
         background: linear-gradient(135deg, #0f172a, #111827);
         color: #f8fafc;
         min-height: 100vh;
-        display: grid;
-        place-items: center;
         padding: 20px;
       }
-      .card { background: rgba(15, 23, 42, 0.95); border-radius: 18px; padding: 24px; width: min(900px, 100%); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-      .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-      .panel { background: #1f2937; border-radius: 14px; padding: 16px; }
-      a { color: #38bdf8; }
+      .card {
+        max-width: 1100px;
+        margin: 0 auto;
+        background: rgba(15, 23, 42, 0.95);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+      }
+      .stepper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .step {
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: #334155;
+        color: #cbd5e1;
+        font-weight: 600;
+      }
+      .step.active {
+        background: #38bdf8;
+        color: #082f49;
+      }
+      .panel {
+        background: #1f2937;
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 16px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      button, .link-btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+        color: #fff;
+        background: #38bdf8;
+      }
+      button.secondary, .link-btn.secondary {
+        background: #64748b;
+      }
+      button.success {
+        background: #10b981;
+      }
+      .result-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+      }
+      .result-table th, .result-table td {
+        padding: 8px 10px;
+        border: 1px solid #475569;
+        text-align: center;
+      }
+      .result-table tr.pass {
+        background: rgba(16, 185, 129, 0.18);
+      }
+      .result-table tr.fail {
+        background: rgba(239, 68, 68, 0.18);
+      }
+      .result-table td.green { color: #34d399; }
+      .result-table td.red { color: #f87171; }
+      .code-box {
+        background: #020617;
+        color: #e2e8f0;
+        padding: 14px;
+        border-radius: 12px;
+        white-space: pre-wrap;
+        overflow-x: auto;
+      }
+      .hidden { display: none; }
     </style>
   </head>
   <body>
     <main class="card">
-      <h1>Kata 002</h1>
-      <p>Proyecto con TDD para FizzBuzz y una calculadora web.</p>
-      <div class="grid">
-        <div class="panel">
-          <h2>FizzBuzz</h2>
-          <p>Pruebas y lógica en Node.js.</p>
-          <p><a href="./fizzbuzz.test.js">Ver tests</a></p>
-        </div>
-        <div class="panel">
-          <h2>Calculadora</h2>
-          <p>Aplicación web publicada en GitHub Pages.</p>
-          <p><a href="./calculadora.html">Abrir calculadora</a></p>
-        </div>
+      <h1>Wizard de la Kata 002</h1>
+      <p>Recorreremos la kata paso a paso: definir la regla, ejecutarla, ver resultados y generar el código de la calculadora.</p>
+
+      <div class="stepper">
+        <div class="step active">1. Definir la kata</div>
+        <div class="step">2. Ejecutar la kata</div>
+        <div class="step">3. Ver resultados</div>
+        <div class="step">4. Generar código</div>
       </div>
+
+      <section class="panel" id="step-1">
+        <h2>Paso 1 — Definir la kata</h2>
+        <p>La kata consiste en convertir los números del 0 al 100 aplicando estas reglas:</p>
+        <ul>
+          <li>Si es múltiplo de 3, mostrar <strong>Fizz</strong>.</li>
+          <li>Si es múltiplo de 5, mostrar <strong>Buzz</strong>.</li>
+          <li>Si es múltiplo de 3 y 5, mostrar <strong>FizzBuzz</strong>.</li>
+          <li>En cualquier otro caso, mostrar el número.</li>
+        </ul>
+        <div class="actions">
+          <button class="success" id="next-1">Siguiente paso</button>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="step-2">
+        <h2>Paso 2 — Ejecutar la kata</h2>
+        <p>Haz clic para ejecutar la lógica de FizzBuzz y generar la secuencia.</p>
+        <div class="actions">
+          <button id="run-kata">Ejecutar kata</button>
+          <button class="secondary" id="next-2">Siguiente paso</button>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="step-3">
+        <h2>Paso 3 — Ver resultados en formato tabla</h2>
+        <p>Los resultados se muestran como una tabla con estado visual tipo TDD: verde para acierto y rojo para fallo.</p>
+        <table class="result-table" id="results-table">
+          <thead>
+            <tr><th>#</th><th>Esperado</th><th>Obtenido</th><th>Estado</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="actions">
+          <button class="secondary" id="next-3">Siguiente paso</button>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="step-4">
+        <h2>Paso 4 — Generar código de la calculadora</h2>
+        <p>Se muestra un ejemplo de código fuente para la funcionalidad de la calculadora.</p>
+        <div class="code-box" id="calculator-code"></div>
+        <div class="actions">
+          <a class="link-btn" href="./calculadora.html">Abrir calculadora</a>
+          <a class="link-btn secondary" href="./fizzbuzz.test.js">Ver código fuente</a>
+        </div>
+      </section>
     </main>
+
+    <script src="./fizzbuzz.js"></script>
+    <script>
+      const steps = [1, 2, 3, 4];
+      const stepElements = steps.map((step) => document.getElementById(`step-${step}`));
+      const stepperItems = document.querySelectorAll('.step');
+
+      function showStep(stepNumber) {
+        stepElements.forEach((element, index) => {
+          const isActive = index + 1 === stepNumber;
+          element.classList.toggle('hidden', !isActive);
+        });
+        stepperItems.forEach((item, index) => {
+          item.classList.toggle('active', index + 1 === stepNumber);
+        });
+      }
+
+      document.getElementById('next-1').addEventListener('click', () => showStep(2));
+      document.getElementById('next-2').addEventListener('click', () => showStep(3));
+      document.getElementById('next-3').addEventListener('click', () => showStep(4));
+
+      document.getElementById('run-kata').addEventListener('click', () => {
+        const values = window.fizzBuzzZeroToHundred();
+        const rows = [
+          { input: 0, expected: 'FizzBuzz', actual: values[0] },
+          { input: 3, expected: 'Fizz', actual: values[3] },
+          { input: 5, expected: 'Buzz', actual: values[5] },
+          { input: 15, expected: 'FizzBuzz', actual: values[15] },
+          { input: 16, expected: '16', actual: values[16] },
+        ];
+
+        const tbody = document.querySelector('#results-table tbody');
+        tbody.innerHTML = rows.map((row) => {
+          const isPass = row.expected === row.actual;
+          return `
+            <tr class="${isPass ? 'pass' : 'fail'}">
+              <td>${row.input}</td>
+              <td>${row.expected}</td>
+              <td class="${isPass ? 'green' : 'red'}">${row.actual}</td>
+              <td class="${isPass ? 'green' : 'red'}">${isPass ? '✅ OK' : '❌ Fallo'}</td>
+            </tr>`;
+        }).join('');
+
+        showStep(3);
+      });
+
+      document.getElementById('calculator-code').textContent = `function calculate(firstValue, secondValue, operator) {
+  switch (operator) {
+    case '+': return firstValue + secondValue;
+    case '-': return firstValue - secondValue;
+    case '*': return firstValue * secondValue;
+    case '/': return secondValue === 0 ? 'Error' : firstValue / secondValue;
+    default: return secondValue;
+  }
+}`;
+
+      showStep(1);
+    </script>
   </body>
 </html>
