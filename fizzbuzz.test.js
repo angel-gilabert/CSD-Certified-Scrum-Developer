@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { fizzBuzz, fizzBuzzSequence, fizzBuzzRange } = require('./fizzbuzz');
+const { fizzBuzz, fizzBuzzSequence, fizzBuzzRange, fizzBuzzZeroToHundred } = require('./fizzbuzz');
 
 test('devuelve el mismo número cuando no es múltiplo de 3 ni de 5', () => {
   assert.equal(fizzBuzz(1), '1');
@@ -51,7 +51,7 @@ test('genera la secuencia completa hasta el límite indicado', () => {
 });
 
 test('genera el rango de 0 a 100 con las reglas de FizzBuzz', () => {
-  const sequence = fizzBuzzRange(0, 100);
+  const sequence = fizzBuzzZeroToHundred();
   assert.equal(sequence.length, 101);
   assert.equal(sequence[0], 'FizzBuzz');
   assert.equal(sequence[3], 'Fizz');
@@ -61,4 +61,9 @@ test('genera el rango de 0 a 100 con las reglas de FizzBuzz', () => {
   assert.equal(sequence[1], '1');
   assert.equal(sequence[2], '2');
   assert.equal(sequence[4], '4');
+});
+
+test('genera la secuencia completa desde 0 hasta 100 inclusive', () => {
+  const sequence = fizzBuzzRange(0, 100);
+  assert.deepEqual(sequence, fizzBuzzZeroToHundred());
 });

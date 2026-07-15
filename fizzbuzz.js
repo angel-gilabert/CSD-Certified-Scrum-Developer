@@ -34,8 +34,25 @@ function fizzBuzzRange(start, end) {
   return Array.from({ length: end - start + 1 }, (_, index) => fizzBuzz(start + index));
 }
 
-module.exports = {
+function fizzBuzzZeroToHundred() {
+  return fizzBuzzRange(0, 100);
+}
+
+const fizzBuzzApi = {
   fizzBuzz,
   fizzBuzzSequence,
   fizzBuzzRange,
+  fizzBuzzZeroToHundred,
 };
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = fizzBuzzApi;
+}
+
+if (typeof window !== 'undefined') {
+  window.fizzBuzzApi = fizzBuzzApi;
+  window.fizzBuzz = fizzBuzz;
+  window.fizzBuzzSequence = fizzBuzzSequence;
+  window.fizzBuzzRange = fizzBuzzRange;
+  window.fizzBuzzZeroToHundred = fizzBuzzZeroToHundred;
+}
